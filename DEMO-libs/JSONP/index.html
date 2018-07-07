@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>JSONP跨域</h2>
+    <p>当前网页域是：
+        <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>
+    </p>
+    <hr>
+    <button class="btn1">当前域 http://127.0.0.1:8080/server/test.json </button>
+    <br>
+    <br>
+    <button class="btn2">跨域 http://127.0.0.1:8888 </button>
+    <br>
+    <br>
+    <button class="btn3">JOSNP http://127.0.0.1:8888</button>
+</body>
+<script type="module">
+    import { http } from './client/http.js';
+
+    if (/localhost/.test(location.href)) {
+        location.href = 'http://127.0.0.1:8080';
+    }
+    
+    const btn1 = document.querySelector('button.btn1'),
+        btn2 = document.querySelector('button.btn2'),
+        btn3 = document.querySelector('button.btn3');
+
+    // 同源资源
+    btn1.addEventListener('click', async () => {
+        const data = await http('http://127.0.0.1:8080/server/test.json');
+        console.log('同源：', data);
+    });
+
+    // 跨域资源
+    btn2.addEventListener('click', async () => {
+        const data = await http('http://127.0.0.1:8888');
+        console.log('跨域：', data);
+    });
+
+    // JSONP
+    btn3.addEventListener('click', async () => {
+        await http('http://127.0.0.1:8888', res => console.log('JSONP：', res));
+    });
+</script>
+
+</html>

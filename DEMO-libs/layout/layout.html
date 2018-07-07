@@ -1,0 +1,149 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layout</title>
+    <style media="all">
+        html * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .layout {
+            margin-top: 10px;
+        }
+
+        .layout article div {
+            height: 10vh;
+        }
+
+        .layout article div.left {
+            background-color: red;
+            width: 10em;
+        }
+
+        .layout article div.center {
+            background-color: yellow;
+        }
+
+        .layout article div.right {
+            background-color: blue;
+            width: 10em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 浮动布局 -->
+    <section class="layout float">
+        <style>
+            .layout.float .left {
+                float: left;
+            }
+
+            .layout.float .right {
+                float: right;
+            }
+        </style>
+        <article>
+            <div class="left"></div>
+            <div class="right"></div>
+            <div class="center">浮动布局解决方案</div>
+        </article>
+    </section>
+
+    <!-- 定位 -->
+    <section class="layout position">
+        <style>
+            .layout.position article {
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+
+            .layout.position .center {
+                width: calc(100% - 10em * 2);
+                position: absolute;
+                top: 0;
+                left: 10em;
+            }
+
+            .layout.position .right {
+                width: 10em;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        </style>
+        <article>
+            <div class="left"></div>
+            <div class="center">定位解决方案</div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <!-- flex -->
+    <section class="layout flex">
+        <style>
+            .layout.flex article {
+                display: flex;
+            }
+
+            .layout.flex .center {
+                flex: 1;
+            }
+        </style>
+        <article>
+            <div class="left"></div>
+            <div class="center">flex</div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <!-- table -->
+    <section class="layout table">
+        <style>
+            .layout.table article {
+                display: table;
+                width: 100%;
+            }
+
+            .layout.table .left {
+                display: table-cell;
+            }
+
+            .layout.table .center {
+                display: table-cell;
+            }
+
+            .layout.table .right {
+                display: table-cell;
+            }
+        </style>
+        <article>
+            <div class="left"></div>
+            <div class="center">table</div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <!-- grid -->
+    <section class="layout grid">
+        <style>
+            .layout.grid article {
+                display: grid;
+                width: 100%;
+                grid-template-rows: 10vh;
+                grid-template-columns: 10em auto 10em;
+            }
+        </style>
+        <article>
+            <div class="left"></div>
+            <div class="center">grid</div>
+            <div class="right"></div>
+        </article>
+    </section>
+</body>
+
+</html>
