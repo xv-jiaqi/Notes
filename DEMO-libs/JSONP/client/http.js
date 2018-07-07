@@ -18,10 +18,10 @@ export function http(url, ...opts) {
 
 /**
  * jsonp
- * @param {*} url 
- * @param {*} callback 
+ * @param url
+ * @param successFn
  */
-function jsonp(url, successFn, errorFn) {
+function jsonp(url, successFn) {
     const cbName = `cb_${new Date().getTime()}`;
 
     // 创建script标签
