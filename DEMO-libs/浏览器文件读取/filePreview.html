@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>文件预览</title>
+</head>
+<body>
+  <section>
+    <h3>FileReader</h3>
+    <input type="file" onchange="onUpload1(this.files[0])">
+  </section>
+  <section>
+    <h3>URL.createObjectURL</h3>
+    <input type="file" onchange="onUpload2(this.files[0])">
+  </section>
+</body>
+<script>
+  function onUpload1(file) {
+    const fs = new FileReader();
+    fs.readAsDataURL(file);     // 文件读取为 Data URL
+
+    fs.onload = e => {
+      const result = e.target.result,
+        body = selector => document.querySelector(selector);
+
+      if (/image/g.test(file.type)) {
+        const img = `<img src="${result}">`;
+        // 'beforebegin' 元素自身的前面。
+        // 'afterbegin' 插入元素内部的第一个子节点之前。
+        // 'beforeend' 插入元素内部的最后一个子节点之后。
+        // 'afterend' 元素自身的后面。
+        body('section:nth-of-type(1)').insertAdjacentHTML('beforeend', img);
+        return;
+      }
+
+      if (/video/g.test(file.type)) {
+        const video = `<video controls src="${result}"></video>`;
+        body('section:nth-of-type(1)').insertAdjacentHTML('beforeend', video);
+      }
+    };
+  }
+
+  function onUpload2(file) {
+    const blob = new Blob([file]),           // 文件转成二进制
+      url = URL.createObjectURL(blob),       // 转成URL
+      body = selector => document.querySelector(selector);
+
+    if (/image/g.test(file.type)) {
+        const img = `<img src="${url}">`;
+        img[0].onload = e => URL.revokeObjectURL(this.src);   // 释放createObjectURL创建的对象
+        body('section:nth-of-type(2)').insertAdjacentHTML('beforeend', img);
+        return;
+      }
+
+      if (/video/g.test(file.type)) {
+        const video = `<video controls src="${url}"></video>`;
+        body('section:nth-of-type(2)').insertAdjacentHTML('beforeend', video);
+        video[0].onload = e => URL.revokeObjectURL(this.src); // 释放createObjectURL创建的对象
+      }
+  }
+</script>
+</html>

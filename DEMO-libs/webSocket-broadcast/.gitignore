@@ -1,4 +1,5 @@
-# Created by https://www.gitignore.io/api/node,macos,webstorm
+
+# Created by https://www.gitignore.io/api/node,macos,webstorm,visualstudiocode
 
 ### macOS ###
 # General
@@ -35,7 +36,6 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-**/npm-debug.log*
 
 # Runtime data
 pids
@@ -67,7 +67,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-**/node_modules
 
 # TypeScript v1 declaration files
 typings/
@@ -104,6 +103,13 @@ typings/
 
 # Serverless directories
 .serverless
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 ### WebStorm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
@@ -178,14 +184,5 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
-**/.idea
-Thumbs.db
-.DS_Store
-*.swp
 
-
-**/.vscode
-
-**/.editorconfig
-
-# End of https://www.gitignore.io/api/node,macos,webstorm
+# End of https://www.gitignore.io/api/node,macos,webstorm,visualstudiocode

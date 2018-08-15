@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>websocket</title>
+</head>
+<body>
+<h6>Client</h6>
+<input type="text" id="client" placeholder="client message!" readonly>
+<script type="module">
+    import ws from './ws.js';
+
+    const wslink = `wss://${location.host}/socket/`;
+
+    new ws('#client', wslink);
+</script>
+</body>
+</html>

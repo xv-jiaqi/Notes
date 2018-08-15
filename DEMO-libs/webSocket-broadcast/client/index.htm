@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>websocket</title>
+</head>
+<body>
+<h6>Admin broadcast</h6>
+<input type="text" id="broadcast" placeholder="broadcast message!">
+<input type="button" onclick="wsbroadcast('#broadcast')" value="online">
+
+<br><br><br>
+<a href="client.html" target="_blank">client</a>
+<script type="module">
+    import ws from './ws.js';
+
+    const wslink = `wss://${location.host}/socket/`;
+
+    const broadcast = new ws('#broadcast', wslink, 'broadcast');
+
+    function wsbroadcast(selector) {
+        const message = document.querySelector(selector).value;
+
+        broadcast.send(JSON.stringify({message, role: 'admin'}));
+    }
+
+    window.wsbroadcast = wsbroadcast;
+</script>
+</body>
+</html>

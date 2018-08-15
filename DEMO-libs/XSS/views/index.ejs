@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      body {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+   
+    <hr>
+    <h3>反射型：</h2>
+    <a href="http://localhost:3000/?xss=<img src='null' onerror='alert(123)'/>">
+      👙
+    </a><br>
+    <a href="http://localhost:3000/?xss=<p onclick='alert(123)'>点我😍😍😍</p>">
+      🤪
+    </a><br>
+    <a href="http://localhost:3000/?xss=<iframe src='https://www.baidu.com'></iframe>">
+      🔥
+    </a><br>
+
+    <h3>存储型：</h3>
+    <a href="/comment">評</a>
+
+    <hr><br><br>
+    <div>
+      <%- xss %>
+    </div>
+  </body>
+</html>

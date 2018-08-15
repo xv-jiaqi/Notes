@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        margin: 0;
+        background-color: grey;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none outside none;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 10px;
+        margin: 10px;
+        min-height: 300px;
+    }
+
+    .feed {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    @supports (display: flex) and (display: contents) {
+        .feed ul,
+        .feed li {
+            display: contents;
+        }
+
+        .card {
+            flex: 1 0 40%;
+        }
+    }
+
+    @supports (display: flex) and (not (display: contents)) {
+        .feed li {
+            flex: 1 0 50%;
+        }
+
+        .feed li.nested {
+            flex-basis: 100%;
+        }
+
+        .feed li.nested ul {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    .chat {
+        background: #fff;
+        border: 10px solid #000;
+        bottom: 0;
+        font-size: 10px;
+        position: fixed;
+        right: 0;
+        width: 300px;
+        z-index: 1001;
+        contain: paint;
+    }
+
+    .messages {
+        border-bottom: 5px solid #000;
+        overflow: auto;
+        padding: 0;
+        max-height: 0;
+        transition: max-height 500ms;
+        overscroll-behavior-y: contain;
+        position: relative;
+    }
+
+    .message {
+        background: #000;
+        border-radius: 5px;
+        color: #fff;
+        margin: 0 20% 10px 0;
+        padding: 10px;
+    }
+
+    .messages li:last-child .message {
+        margin-bottom: 0;
+    }
+
+    .input {
+        border: none;
+        display: block;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .chat:focus-within .messages {
+        max-height: 300px;
+        padding: 10px;
+    }
+
+    .chat:focus-within~.container {
+        filter: blur(5px);
+    }
+
+    .prompt {
+        line-height: 2em;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 10px;
+        text-align: right;
+        transition: max-height 500ms;
+    }
+
+    .input:not(:placeholder-shown)+.prompt {
+        max-height: 2em;
+    }
+
+    .message--mine:hover::after {
+        background: #000;
+        color: #ff2089;
+        content: attr(data-timestamp);
+        left: 0;
+        padding: 5px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+</style>
+
+<body>
+    <!-- chat box -->
+    <div class="chat">
+        <div class="messages">
+            <ul id="messages">
+                <li>
+                    <div class="message">Message 1</div>
+                </li>
+                <li>
+                    <div class="message">Message 2</div>
+                </li>
+                <li>
+                    <div class="message">Message 3</div>
+                </li>
+                <li>
+                    <div class="message">Message 4</div>
+                </li>
+                <li>
+                    <div class="message">Message 5</div>
+                </li>
+                <li>
+                    <div class="message">Message 6</div>
+                </li>
+                <li>
+                    <div class="message">Message 7</div>
+                </li>
+                <li>
+                    <div class="message">Message 8</div>
+                </li>
+                <li>
+                    <div class="message">Message 9</div>
+                </li>
+                <li>
+                    <div class="message">Message 10</div>
+                </li>
+            </ul>
+        </div>
+        <input type="text" class="input" id="input" placeholder="Enter your message" required>
+        <div class="prompt">Press enter to send</div>
+    </div>
+    <!-- newsfeed -->
+    <div class="container">
+        <ul class="feed">
+            <li>
+                <div class="card">Card 1</div>
+            </li>
+            <li>
+                <div class="card">Card 2</div>
+            </li>
+            <li>
+                <div class="card">Card 3</div>
+            </li>
+            <li>
+                <div class="card">Card 4</div>
+            </li>
+            <li>
+                <div class="card">Card 5</div>
+            </li>
+            <li class="nested">
+                <ul>
+                    <li>
+                        <div class="card">Card A</div>
+                    </li>
+                    <li>
+                        <div class="card">Card B</div>
+                    </li>
+                    <li>
+                        <div class="card">Card C</div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <div class="card">Card 6</div>
+            </li>
+            <li>
+                <div class="card">Card 7</div>
+            </li>
+            <li>
+                <div class="card">Card 8</div>
+            </li>
+            <li>
+                <div class="card">Card 9</div>
+            </li>
+            <li>
+                <div class="card">Card 10</div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    // 获取相应的元素
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    // 监听input的键盘事件
+    input.addEventListener('keypress', (event) => {
+        // 检查是否按下Enter键
+        if (event.keyCode === 13) {
+            // 检查字段是否有效
+            if (input.validity.valid) {
+                // 使用该值创建DOM元素
+                const message = createMessage(input.value);
+                // 将新创建的DOM元素添加到消息列表
+                messages.appendChild(message);
+                // 清除输入框的值
+                input.value = '';
+                // 滚动到消息列表的底部
+                messages.parentNode.scrollTop = messages.parentNode.scrollHeight;
+            }
+        }
+    });
+
+    // 将input的值转换为HTML的字符串
+    function createMessage(value) {
+        return stringToDom(
+            `
+			<li>
+				<div class="message message--mine" data-timestamp="${new Date().toString()}"> ${value} </div>
+			</li>
+		`
+        );
+    }
+
+    // 将字符串转换为真实的DOM
+    function stringToDom(string) {
+        const template = document.createElement('template');
+        template.innerHTML = string.trim();
+        return template.content.firstChild;
+    }
+</script>
+
+</html>
