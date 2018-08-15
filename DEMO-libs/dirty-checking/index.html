@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <section>
+    <form>
+      <input type="text" ng-model="count">
+      <button ng-click="increment">increment</button>
+    </form>
+    <h6 ng-bind="count"></h6>
+  </section>
+</body>
+<script>
+  document.onDOMContentLoaded = () => {
+    const $scope = new Scope();
+
+    $scope.count = 0;
+    $scope.increment = () => {
+      ++this.count;
+    };
+  }
+
+  class Scope {
+    constructor() {
+      this.$$watchers = [];
+    }
+
+    $watch(name, exp, listener) {
+      this.$$watchers.push({
+        name: name,
+        last: null,
+        newVal: exp,
+        listener: listener
+      });
+    }
+
+    $digest() {
+      const bindList = document.querySelectorAll('[ng-bind]');
+
+      let isDirty = true;
+
+      while(isDirty) {
+        isDirty = false;
+
+        this.$$watchers.forEach((val, index) => {
+          const oldVal = val.last,
+            newVal = val.newVal();
+
+          if (oldVal )
+        });
+      }
+    }
+  }
+
+  const $rootScope = [];
+
+  /**
+   * DOM 更新
+   */
+  function digest() {
+    const bindList = document.querySelectorAll('[ng-bind]');
+
+    let dirty = true;
+
+    while(dirty) {
+      dirty = false;
+
+
+    }
+  }
+
+  /**
+   * 对 ng-bind 具有交互式动作的元素进行解析
+   */
+  function ngBind() {
+    const eleBind = ['input', 'textarea'];
+
+    eleBind.forEach(bind);
+
+    function bind(eleType) {
+      const bindList = document.querySelectorAll(`${eleType}[ng-bind]`);
+
+      bindList.forEach(listener);
+    }
+
+    function listener(ele, index) {
+      ele.addEventListener('input', (event) => {
+        $rootScope[ele.getAttribute('ng-bind')] = ele.value;
+        $rootScope.$digest();
+      }, false)
+    }
+  }
+
+  /**
+   * 对绑定事件执行原生事件替换
+   */
+  function ngEvent() {
+    const eventTypeMap = {
+      'ng-click': 'onclick',
+      'ng-change': 'onchange'
+    };
+    
+    const [ngEvent, nativeEvent] = Object.entries(eventTypeMap);
+
+    ngEvent.forEach(bind);
+
+    function bind(ngEvent, index) {
+      const _ngEvent = ngEvent, _nativeEvent = nativeEvent[index];
+
+      const eleList = document.querySelectorAll(`[${_ngEvent}]`);
+
+      eleList.forEach(ele => {
+        ele[_nativeEvent] = () => {
+          $rootScope[ele.getAttribute(`${_ngEvent}`)]();
+          $rootScope.$digest();
+        };
+      });
+    }
+  }
+
+  ngBind();
+</script>
+
+</html>
